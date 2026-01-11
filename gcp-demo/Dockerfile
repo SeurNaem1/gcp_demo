@@ -1,5 +1,5 @@
 # 1️⃣ Dùng Python chính thức, nhẹ
-FROM python:3.11-slim
+FROM python:3.13-slim
 
 # 2️⃣ Tắt tạo .pyc và bật log stdout
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -22,3 +22,4 @@ ENV PORT=8080
 
 # 8️⃣ Chạy app bằng Gunicorn (chuẩn production)
 CMD ["gunicorn", "--bind", "0.0.0.0:8080", "app:app"]
+
