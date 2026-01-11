@@ -1,25 +1,17 @@
 from flask import Flask
 import pymysql
 import os
-from dotenv import load_dotenv
-
-if os.path.exists(".env"):
-    load_dotenv()
 
 app = Flask(__name__)
 
-print("INSTANCE_CONNECTION_NAME =", os.environ.get("INSTANCE_CONNECTION_NAME"))
-print("Socket exists =",
-      os.path.exists(f"/cloudsql/{os.environ.get('INSTANCE_CONNECTION_NAME')}"))
-
 def get_db_connection():
-    instance_conn = os.environ.get("INSTANCE_CONNECTION_NAME")
-
     return pymysql.connect(
+        host=os.environ["DB_HOST"],
+        port=int(os.environ.get("DB_PORT", 3306)),
         user=os.environ["DB_USER"],
         password=os.environ["DB_PASS"],
         database=os.environ["DB_NAME"],
-        unix_socket=f"/cloudsql/{instance_conn}"
+        connect_timeout=5
     )
 
 @app.route("/")
@@ -37,4 +29,3 @@ def index():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
-
