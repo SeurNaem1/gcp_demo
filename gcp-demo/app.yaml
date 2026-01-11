@@ -1,0 +1,7 @@
+runtime: python311
+
+env_variables:
+  DB_USER: root
+  DB_PASS: YOUR_ROOT_PASSWORD
+  DB_NAME: demo_db
+  INSTANCE_CONNECTION_NAME: PROJECT_ID:asia-southeast1:demo-mysql
