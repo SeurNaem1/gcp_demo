@@ -1,7 +1,10 @@
 runtime: python311
 
 env_variables:
+
   DB_USER: ad
   DB_PASS: ad
   DB_NAME: demo
-  INSTANCE_CONNECTION_NAME: test-484002:asia-southeast1:demo-mysql
+
+  DB_PORT: 3306
+  DB_HOST: 10.79.224.3
