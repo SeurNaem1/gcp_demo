@@ -1,41 +1,35 @@
 from flask import Flask
 import pymysql
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
+
+if os.path.exists(".env"):
+    load_dotenv()
 
 app = Flask(__name__)
 
-load_dotenv()
-
-
-
 def get_db_connection():
+    instance_conn = os.environ.get("INSTANCE_CONNECTION_NAME")
+
     return pymysql.connect(
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASS"),
-        database=os.getenv("DB_NAME"),
-        unix_socket=os.getenv('INSTANCE_CONNECTION_NAME')
+        user=os.environ["DB_USER"],
+        password=os.environ["DB_PASS"],
+        database=os.environ["DB_NAME"],
+        unix_socket=f"/cloudsql/{instance_conn}"
     )
 
 @app.route("/")
 def index():
-
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute("SELECT name FROM users")
         users = cursor.fetchall()
         conn.close()
-
-        return f"""
-        <h2>✅ Connected to DB successfully</h2>
-        <p>Users from database:</p>
-        <pre>{users}</pre>
-        """
+        return f"<pre>{users}</pre>"
     except Exception as e:
-        return f"<h2>❌ DB connection failed</h2><pre>{e}</pre>"
+        return f"<pre>{e}</pre>"
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080, debug=True)
-
-
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
