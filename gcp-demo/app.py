@@ -8,6 +8,10 @@ if os.path.exists(".env"):
 
 app = Flask(__name__)
 
+print("INSTANCE_CONNECTION_NAME =", os.environ.get("INSTANCE_CONNECTION_NAME"))
+print("Socket exists =",
+      os.path.exists(f"/cloudsql/{os.environ.get('INSTANCE_CONNECTION_NAME')}"))
+
 def get_db_connection():
     instance_conn = os.environ.get("INSTANCE_CONNECTION_NAME")
 
@@ -33,3 +37,4 @@ def index():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
+
