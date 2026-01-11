@@ -1,19 +1,33 @@
 from flask import Flask
 import pymysql
+from dotenv import load_dotenv
 import os
 
 app = Flask(__name__)
 
+load_dotenv()
+
+
+
 def get_db_connection():
     return pymysql.connect(
-        user=os.environ.get("DB_USER"),
-        password=os.environ.get("DB_PASS"),
-        database=os.environ.get("DB_NAME"),
-        unix_socket=f"/cloudsql/{os.environ.get('INSTANCE_CONNECTION_NAME')}"
+        user=os.getenv("DB_USER"),
+        password=os.getenvt("DB_PASS"),
+        database=os.getenv("DB_NAME"),
+        unix_socket=os.getenv('INSTANCE_CONNECTION_NAME')
     )
 
 @app.route("/")
 def index():
+    # """user= os.getenv("DB_USER")
+    # password= os.getenv("DB_PASS")
+    # database= os.getenv("DB_NAME")
+    # instance_connection_name= os.getenv("INSTANCE_CONNECTION_NAME")"""
+    print (user,
+           password,
+           database,
+           instance_connection_name)
+
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
