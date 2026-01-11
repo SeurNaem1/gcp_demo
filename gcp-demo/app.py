@@ -12,7 +12,7 @@ load_dotenv()
 def get_db_connection():
     return pymysql.connect(
         user=os.getenv("DB_USER"),
-        password=os.getenvt("DB_PASS"),
+        password=os.getenv("DB_PASS"),
         database=os.getenv("DB_NAME"),
         unix_socket=os.getenv('INSTANCE_CONNECTION_NAME')
     )
@@ -37,4 +37,5 @@ def index():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080, debug=True)
+
 
